@@ -90,27 +90,25 @@ def checkout(request):
     if not cart_items.exists():
         return redirect('cart')
     
-    total_price = sum(item.get_total_price() for item in cart_items)
+    total = sum(item.product.price * item.quantity for item in cart_items)
     
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
-            order = Order.objects.create(
-                user=request.user,
-                total_price=total_price,
-                shipping_address=form.cleaned_data['shipping_address']
-            )
+            order = form.save(commit=False)
+            order.user = request.user
+            order.total_amount = total
+            order.save()
             
-            for cart_item in cart_items:
+            for item in cart_items:
                 OrderItem.objects.create(
                     order=order,
-                    product=cart_item.product,
-                    quantity=cart_item.quantity,
-                    price=cart_item.product.price
+                    product=item.product,
+                    quantity=item.quantity,
+                    price=item.product.price
                 )
             
             cart_items.delete()
-            
             return redirect('order_confirmation', order_id=order.id)
     else:
         form = CheckoutForm()
@@ -118,7 +116,7 @@ def checkout(request):
     return render(request, 'home/checkout.html', {
         'form': form,
         'cart_items': cart_items,
-        'total_price': total_price,
+        'total': total,
         'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY
     })
 
@@ -270,22 +268,6 @@ def add_to_cart_api(request, product_id):
 
 @csrf_exempt
 def stripe_webhook(request):
-    if not settings.STRIPE_WEBHOOK_SECRET:
-        # For development/testing without webhook secret
-        try:
-            payload = json.loads(request.body)
-            if payload.get('type') == 'payment_intent.succeeded':
-                payment_intent = payload['data']['object']
-                order_id = payment_intent.get('metadata', {}).get('order_id')
-                if order_id:
-                    order = Order.objects.get(id=order_id)
-                    order.payment_status = 'paid'
-                    order.save()
-            return HttpResponse(status=200)
-        except json.JSONDecodeError:
-            return HttpResponse(status=400)
-    
-    # Production code with webhook secret verification
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
@@ -301,10 +283,8 @@ def stripe_webhook(request):
 
     if event['type'] == 'payment_intent.succeeded':
         payment_intent = event['data']['object']
-        order_id = payment_intent.metadata.get('order_id')
-        if order_id:
-            order = Order.objects.get(id=order_id)
-            order.payment_status = 'paid'
-            order.save()
+        order = Order.objects.get(payment_intent_id=payment_intent.id)
+        order.payment_status = 'completed'
+        order.save()
 
     return HttpResponse(status=200)

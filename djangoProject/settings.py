@@ -157,19 +157,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-# Email Configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your_email@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'your_app_password'  # Replace with your app password
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-# Stripe Configuration
+# Stripe settings
 STRIPE_PUBLISHABLE_KEY = 'pk_test_f3duw0VsAEM2TJFMtWQ90QAT'
 STRIPE_SECRET_KEY = 'sk_test_Y17KokhC3SRYCQTLYiU5ZCD2'
-STRIPE_WEBHOOK_SECRET = None  # Set to None for development
+STRIPE_WEBHOOK_SECRET = None  # For development
 
 # Initialize Stripe
 import stripe
@@ -182,3 +173,12 @@ CSRF_COOKIE_SECURE = False  # Set to True in production
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
+
+# Remove email settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your_email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your_app_password'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
