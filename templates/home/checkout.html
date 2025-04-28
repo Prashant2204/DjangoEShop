@@ -1,52 +1,35 @@
-# Create .gitignore file
-cat > .gitignore << EOL
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+{% extends 'base.html' %}
+{% load static %}
 
-# Django
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-media/
+{% block title %}Checkout - Eco Shop{% endblock %}
 
-# Virtual Environment
-.env
-.venv
-env/
-venv/
-ENV/
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Checkout</h1>
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Project specific
-node_modules/
-frontend/build/
-EOL 
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Order Summary</h4>
+            <ul class="list-group mb-4">
+                {% for item in cart_items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ item.product.name }} (x{{ item.quantity }})
+                    <span>${{ item.get_total_price }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Amount</h5>
+                    <p class="card-text">${{ total }}</p>
+                    
+                    <!-- Stripe payment button -->
+                    <button id="checkout-button" class="btn btn-success btn-lg w-100">Pay Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
