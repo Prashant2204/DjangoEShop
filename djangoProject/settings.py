@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qp+eyh(wl#s^7!z5^#55(u$)(fck3a=0i&8(o)22j)-y90716b'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -158,9 +163,9 @@ REST_FRAMEWORK = {
 }
 
 # Stripe settings
-STRIPE_PUBLISHABLE_KEY = 'pk_test_f3duw0VsAEM2TJFMtWQ90QAT'
-STRIPE_SECRET_KEY = 'sk_test_Y17KokhC3SRYCQTLYiU5ZCD2'
-STRIPE_WEBHOOK_SECRET = None  # For development
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', None)
 
 # Initialize Stripe
 import stripe
