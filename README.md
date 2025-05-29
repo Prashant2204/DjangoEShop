@@ -25,8 +25,12 @@ View and manage items in your shopping cart.
 ![Order History](docs/03-order-history.png)
 Track your past orders and their status.
 
-### 4. Login Page
-![Login](docs/04-login.png)
+### 4. Order Details
+![Order Details](docs/04-order-details.png)
+Detailed view of a specific order with items and status.
+
+### 5. Login Page
+![Login](docs/05-login.png)
 Secure user authentication page.
 
 ## Installation
