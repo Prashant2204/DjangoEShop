@@ -76,16 +76,10 @@ python manage.py runserver
 ## Usage
 
 1. Access the admin panel at `/admin` to manage products and orders
-2. Browse products on the homepage
-3. Add items to cart
-4. View order history
-
-## API Endpoints
-
-- `/api/products/` - Product listing (homepage)
-- `/api/cart/` - Shopping cart management
-- `/api/orders/` - Order management
-- `/api/users/` - User management
+2. Browse products on the homepage (`/`)
+3. Add items to cart (`/add-to-cart/<product_id>/`)
+4. View cart (`/cart/`)
+5. View order history (`/orders/`)
 
 ## Technologies Used
 
