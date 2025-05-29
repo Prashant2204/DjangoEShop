@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: eco-shop
+    env: python
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: gunicorn djangoProject.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: PYTHON_VERSION
+        value: 3.9.0 
