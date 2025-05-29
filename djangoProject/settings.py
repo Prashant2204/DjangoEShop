@@ -179,6 +179,11 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
+# Authentication settings
+LOGIN_REDIRECT_URL = 'product_list'
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'product_list'
+
 # Remove email settings
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
@@ -187,3 +192,17 @@ X_FRAME_OPTIONS = 'DENY'
 # EMAIL_HOST_USER = 'your_email@gmail.com'
 # EMAIL_HOST_PASSWORD = 'your_app_password'
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR',
+    },
+}

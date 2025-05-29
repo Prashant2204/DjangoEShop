@@ -5,10 +5,10 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="text-center mb-5">Our Eco-Friendly Products</h1>
-    <div class="row">
+    <h1 class="text-center mb-4">Our Eco-Friendly Products</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
         {% for product in products %}
-        <div class="col-md-4">
+        <div class="col mb-3">
             <div class="product-card">
                 <div class="product-image-container">
                     <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
@@ -31,4 +31,19 @@
         {% endfor %}
     </div>
 </div>
+
+<style>
+.product-card {
+    margin-bottom: 1rem;
+    height: 100%;
+}
+
+.row {
+    margin-bottom: 1rem;
+}
+
+.col {
+    padding: 0.5rem;
+}
+</style>
 {% endblock %} 

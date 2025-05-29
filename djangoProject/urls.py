@@ -19,9 +19,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='product_list'), name='logout'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('home.urls')),
 ]

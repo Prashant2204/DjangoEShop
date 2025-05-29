@@ -165,6 +165,12 @@ def request_refund(request, order_id):
     
     return redirect('order_detail', order_id=order.id)
 
+@login_required
+def profile(request):
+    return render(request, 'home/profile.html', {
+        'user': request.user
+    })
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -182,18 +188,22 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 class CartItemViewSet(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        return CartItem.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            return CartItem.objects.filter(user=self.request.user)
+        return CartItem.objects.none()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     @action(detail=False, methods=['get'])
     def total(self, request):
-        total = sum(item.total_price for item in self.get_queryset())
-        return Response({'total': total})
+        if request.user.is_authenticated:
+            total = sum(item.get_total_price() for item in self.get_queryset())
+            return Response({'total': total})
+        return Response({'total': 0})
 
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer

@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/stripe-webhook/', views.StripeWebhookView.as_view(), name='stripe-webhook'),
     path('api/cart/total/', views.cart_total, name='cart_total'),
     path('api/add-to-cart/<int:product_id>/', views.add_to_cart_api, name='add_to_cart_api'),
+    path('accounts/profile/', views.profile, name='profile'),
 ] 

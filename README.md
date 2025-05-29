@@ -1,24 +1,33 @@
-# Django E-Commerce Project
+# Eco Shop - Sustainable E-commerce Platform
 
-A full-featured e-commerce platform built with Django and Stripe integration.
+A Django-based e-commerce platform focused on eco-friendly products. This project demonstrates a full-featured online store with user authentication, shopping cart functionality, and order management.
 
 ## Features
 
-- User authentication and authorization
-- Product catalog with categories
-- Shopping cart functionality
-- Secure checkout with Stripe
-- Order management
-- REST API endpoints
-- Responsive design
+- User Authentication (Login/Register)
+- Product Catalog
+- Shopping Cart Management
+- Order History and Tracking
+- Admin Dashboard
+- Responsive Design
 
-## Tech Stack
+## Screenshots
 
-- Django 5.1
-- Django REST Framework
-- Stripe Payment Integration
-- SQLite (Development) / PostgreSQL (Production)
-- Bootstrap for frontend
+### 1. Homepage
+![Homepage](docs/01-homepage.png)
+The main product listing page showing all available eco-friendly products.
+
+### 2. Shopping Cart
+![Cart](docs/02-cart.png)
+View and manage items in your shopping cart.
+
+### 3. Order History
+![Order History](docs/03-order-history.png)
+Track your past orders and their status.
+
+### 4. Login Page
+![Login](docs/04-login.png)
+Secure user authentication page.
 
 ## Installation
 
@@ -30,8 +39,8 @@ cd DjangoEShop
 
 2. Create and activate virtual environment:
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 3. Install dependencies:
@@ -40,9 +49,9 @@ pip install -r requirements.txt
 ```
 
 4. Set up environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your credentials
+Create a `.env` file in the project root with:
+```
+SECRET_KEY=your_secret_key
 ```
 
 5. Run migrations:
@@ -50,40 +59,41 @@ cp .env.example .env
 python manage.py migrate
 ```
 
-6. Start the development server:
+6. Create superuser:
+```bash
+python manage.py createsuperuser
+```
+
+7. Run the development server:
 ```bash
 python manage.py runserver
 ```
 
+## Usage
+
+1. Access the admin panel at `/admin` to manage products and orders
+2. Browse products on the homepage
+3. Add items to cart
+4. View order history
+
 ## API Endpoints
 
-- `/api/products/` - Product listing and management
-- `/api/cart/` - Cart operations
+- `/api/products/` - Product listing (homepage)
+- `/api/cart/` - Shopping cart management
 - `/api/orders/` - Order management
 - `/api/users/` - User management
 
-## Project Structure
+## Technologies Used
 
-```
-djangoProject/
-├── home/                 # Main app
-│   ├── models.py        # Database models
-│   ├── views.py         # View logic
-│   ├── urls.py          # URL routing
-│   └── templates/       # HTML templates
-├── static/              # Static files
-├── media/               # User uploaded files
-└── templates/           # Project templates
-```
+- Django
+- Django REST Framework
+- Bootstrap
+- SQLite
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch
+2. Create a feature branch
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.

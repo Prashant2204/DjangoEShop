@@ -19,6 +19,9 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return self.name
 
@@ -27,6 +30,9 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
