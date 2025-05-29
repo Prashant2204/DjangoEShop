@@ -254,14 +254,6 @@ class StripeWebhookView(APIView):
 
         return Response(status=status.HTTP_200_OK)
 
-# API Views for specific actions
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def cart_total(request):
-    cart_items = CartItem.objects.filter(user=request.user)
-    total = sum(item.total_price for item in cart_items)
-    return Response({'total': total})
-
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def add_to_cart_api(request, product_id):
