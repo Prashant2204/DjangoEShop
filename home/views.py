@@ -8,7 +8,7 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from .serializers import ProductSerializer, CartItemSerializer, UserSerializer, OrderSerializer, CreateOrderSerializer, OrderItemSerializer
 from django.contrib.auth import get_user_model
-from .forms import CheckoutForm
+from .forms import CheckoutForm, SignUpForm
 from decimal import Decimal
 import stripe
 from django.contrib import messages
@@ -17,6 +17,7 @@ from django.conf import settings
 import json
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import login
 
 User = get_user_model()
 
@@ -151,9 +152,6 @@ def request_refund(request, order_id):
                     order.payment_status = 'refunded'
                     order.status = 'cancelled'
                     order.save()
-                    
-                    # Send refund confirmation email
-                    send_refund_confirmation_email(order)
                     
                     messages.success(request, 'Refund processed successfully.')
                     return redirect('order_detail', order_id=order.id)
@@ -290,3 +288,14 @@ def stripe_webhook(request):
         order.save()
 
     return HttpResponse(status=200)
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('product_list')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
